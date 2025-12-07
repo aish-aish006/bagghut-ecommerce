@@ -107,55 +107,6 @@ Email: admin@bagghut.com
 Password: admin123
 ```
 
-## 📸 Screenshots
-
-(Add screenshots of your website here)
-
 ## 👨‍💻 Author
 
-Your Name - [GitHub Profile](https://github.com/YOUR_USERNAME)
-
-## 📄 License
-
-This project is open source and available under the MIT License.
-```
-
----
-
-### **Step 5: Organize Your Project Files**
-
-Create this folder structure:
-```
-bagghut-ecommerce/
-├── frontend/
-│   ├── index.html
-│   ├── products.html
-│   ├── product-detail.html
-│   ├── cart.html
-│   ├── checkout.html
-│   ├── login.html
-│   ├── profile.html
-│   ├── admin.html
-│   ├── contact.html
-│   ├── about.html
-│   └── policies.html
-├── backend/
-│   ├── models/
-│   │   ├── User.js
-│   │   ├── Product.js
-│   │   └── Order.js
-│   ├── routes/
-│   │   ├── auth.js
-│   │   ├── products.js
-│   │   ├── orders.js
-│   │   ├── users.js
-│   │   └── admin.js
-│   ├── middleware/
-│   │   └── auth.js
-│   ├── scripts/
-│   │   └── seedProducts.js
-│   ├── server.js
-│   ├── package.json
-│   └── .env.example
-├── .gitignore
-└── README.md
+Aishwaray Sujan - [GitHub Profile](https://github.com/aish_aish006)
