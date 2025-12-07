@@ -109,4 +109,4 @@ Password: admin123
 
 ## 👨‍💻 Author
 
-Aishwaray Sujan - [GitHub Profile](https://github.com/aish_aish006)
+Aishwaray Sujan - [GitHub Profile](https://github.com/aish-aish006)
