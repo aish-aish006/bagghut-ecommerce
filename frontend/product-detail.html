@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details - Bagghut</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+    }
+
+    .offer-bar {
+      background: linear-gradient(135deg, #FFB07C 0%, #ff8c5a 100%);
+      color: white;
+      text-align: center;
+      padding: 12px;
+      font-weight: 600;
+    }
+
+    header {
+      background: linear-gradient(135deg, #FFDAB9 0%, #ffcba4 100%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 40px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 36px;
+      font-weight: bold;
+      color: #d32f2f;
+      font-family: 'Trebuchet MS', sans-serif;
+      letter-spacing: 3px;
+      cursor: pointer;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 35px;
+      align-items: center;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 600;
+      transition: all 0.3s;
+      padding: 8px 12px;
+      border-radius: 5px;
+    }
+
+    nav ul li a:hover {
+      color: #d32f2f;
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .cart-icon {
+      position: relative;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #d32f2f;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .profile-pic {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid #d32f2f;
+    }
+
+    .breadcrumb {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 40px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .breadcrumb a {
+      color: #667eea;
+      text-decoration: none;
+    }
+
+    .product-container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      background: white;
+      border-radius: 15px;
+      padding: 40px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .product-images {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .main-image {
+      width: 100%;
+      height: 500px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .main-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .thumbnail-images {
+      display: flex;
+      gap: 15px;
+    }
+
+    .thumbnail {
+      width: 100px;
+      height: 100px;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: all 0.3s;
+    }
+
+    .thumbnail:hover, .thumbnail.active {
+      border-color: #d32f2f;
+      transform: scale(1.05);
+    }
+
+    .thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .product-info {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .product-badge {
+      display: inline-block;
+      background: #d32f2f;
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      width: fit-content;
+    }
+
+    .product-title {
+      font-size: 32px;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .product-rating {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .stars {
+      color: gold;
+      font-size: 20px;
+    }
+
+    .rating-text {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .price-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 20px 0;
+      border-top: 2px solid #f0f0f0;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .current-price {
+      font-size: 36px;
+      font-weight: bold;
+      color: #d32f2f;
+    }
+
+    .old-price {
+      font-size: 24px;
+      color: #999;
+      text-decoration: line-through;
+    }
+
+    .discount {
+      background: #4CAF50;
+      color: white;
+      padding: 5px 12px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .product-description {
+      line-height: 1.8;
+      color: #666;
+      font-size: 16px;
+    }
+
+    .product-details {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .product-details h3 {
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .detail-label {
+      font-weight: 600;
+      color: #666;
+    }
+
+    .detail-value {
+      color: #333;
+    }
+
+    .stock-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px;
+      background: #e8f5e9;
+      border-radius: 8px;
+      color: #2e7d32;
+      font-weight: 600;
+    }
+
+    .stock-info.low-stock {
+      background: #fff3e0;
+      color: #e65100;
+    }
+
+    .stock-info.out-of-stock {
+      background: #ffebee;
+      color: #c62828;
+    }
+
+    .quantity-selector {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .quantity-selector label {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 5px;
+    }
+
+    .qty-btn {
+      width: 35px;
+      height: 35px;
+      border: none;
+      background: #f0f0f0;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+
+    .qty-btn:hover {
+      background: #d32f2f;
+      color: white;
+    }
+
+    .qty-input {
+      width: 60px;
+      text-align: center;
+      border: none;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-primary {
+      background: #d32f2f;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #b71c1c;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #333;
+    }
+
+    .btn-secondary:hover {
+      background: #e0e0e0;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .related-products {
+      max-width: 1200px;
+      margin: 60px auto;
+      padding: 0 40px;
+    }
+
+    .section-title {
+      font-size: 32px;
+      margin-bottom: 30px;
+      color: #333;
+      text-align: center;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 30px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+
+    .product-card-info {
+      padding: 20px;
+    }
+
+    .product-card h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .product-card .price {
+      font-size: 22px;
+      font-weight: bold;
+      color: #d32f2f;
+    }
+
+    footer {
+      background: #333;
+      color: white;
+      padding: 40px;
+      margin-top: 60px;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .product-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="offer-bar">
+    🎉 MEGA SALE! Get up to 60% OFF + Free Shipping on orders above ₹999 🎉
+  </div>
+
+  <header>
+    <div class="logo" onclick="window.location.href='index.html'">Bagghut</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Shop</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li>
+          <div class="cart-icon" onclick="window.location.href='cart.html'">
+            🛒
+            <span class="cart-count" id="cartCount">0</span>
+          </div>
+        </li>
+        <li>
+          <img src="https://i.pravatar.cc/100" alt="Profile" class="profile-pic" 
+               onclick="window.location.href='profile.html'">
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a> / <a href="products.html">Products</a> / <span id="breadcrumbProduct">Product</span>
+  </div>
+
+  <div class="product-container">
+    <div class="product-images">
+      <div class="main-image">
+        <img id="mainImage" src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600" alt="Product">
+      </div>
+      <div class="thumbnail-images">
+        <div class="thumbnail active" onclick="changeImage(0)">
+          <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=200" alt="View 1">
+        </div>
+        <div class="thumbnail" onclick="changeImage(1)">
+          <img src="https://images.unsplash.com/photo-1622260614927-e93a9c9c7d0a?w=200" alt="View 2">
+        </div>
+        <div class="thumbnail" onclick="changeImage(2)">
+          <img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=200" alt="View 3">
+        </div>
+      </div>
+    </div>
+
+    <div class="product-info">
+      <div class="product-badge" id="productBadge">NEW</div>
+      <h1 class="product-title" id="productTitle">Loading...</h1>
+      
+      <div class="product-rating">
+        <div class="stars" id="productStars">⭐⭐⭐⭐⭐</div>
+        <span class="rating-text" id="ratingText">(0 reviews)</span>
+      </div>
+
+      <div class="price-section">
+        <div class="current-price" id="currentPrice">₹0</div>
+        <div class="old-price" id="oldPrice">₹0</div>
+        <div class="discount" id="discount">0% OFF</div>
+      </div>
+
+      <div class="product-description" id="productDescription">
+        Loading product details...
+      </div>
+
+      <div class="product-details">
+        <h3>Product Specifications</h3>
+        <div class="detail-row">
+          <span class="detail-label">Category:</span>
+          <span class="detail-value" id="category">-</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Material:</span>
+          <span class="detail-value" id="material">-</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Color:</span>
+          <span class="detail-value" id="color">-</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">SKU:</span>
+          <span class="detail-value" id="sku">-</span>
+        </div>
+      </div>
+
+      <div class="stock-info" id="stockInfo">
+        ✓ In Stock: <span id="stockCount">0</span> units available
+      </div>
+
+      <div class="quantity-selector">
+        <label>Quantity:</label>
+        <div class="quantity-controls">
+          <button class="qty-btn" onclick="decrementQty()">-</button>
+          <input type="number" class="qty-input" id="quantity" value="1" min="1" max="10" readonly>
+          <button class="qty-btn" onclick="incrementQty()">+</button>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn btn-primary" id="addToCartBtn" onclick="addToCart()">
+          🛒 Add to Cart
+        </button>
+        <button class="btn btn-secondary" onclick="buyNow()">
+          ⚡ Buy Now
+        </button>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn btn-secondary" onclick="addToWishlist()">
+          ❤️ Add to Wishlist
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="related-products">
+    <h2 class="section-title">Related Products</h2>
+    <div class="products-grid" id="relatedProducts"></div>
+  </div>
+
+  <footer>
+    <p>&copy; 2024 Bagghut. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    const allProducts = [
+      {
+        id: 1, name: "Classic Leather Backpack", category: "Backpack",
+        price: 2499, oldPrice: 3999, image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400",
+        badge: "50% OFF", stock: 15, color: "Brown", material: "Leather",
+        rating: 4.5, reviews: 128, 
+        description: "Premium quality leather backpack perfect for daily use. Features multiple compartments, padded laptop sleeve, and durable construction. Water-resistant material ensures your belongings stay safe."
+      },
+      {
+        id: 2, name: "Designer Handbag", category: "Handbag",
+        price: 3999, oldPrice: 5999, image: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400",
+        badge: "NEW", stock: 8, color: "Black", material: "Leather",
+        rating: 4.8, reviews: 95,
+        description: "Elegant designer handbag crafted from genuine leather. Perfect for formal occasions and daily use. Includes adjustable strap and multiple pockets for organization."
+      },
+      {
+        id: 3, name: "Professional Laptop Bag", category: "Laptop Bag",
+        price: 1899, oldPrice: 2999, image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400",
+        badge: "SALE", stock: 20, color: "Black", material: "Nylon",
+        rating: 4.6, reviews: 210,
+        description: "Sleek professional laptop bag with dedicated compartments for up to 15.6-inch laptops. Padded shoulder straps and multiple organizational pockets make it ideal for work and travel."
+      },
+      {
+        id: 4, name: "Travel Duffel Bag", category: "Travel Bag",
+        price: 2999, oldPrice: 4499, image: "https://images.unsplash.com/photo-1622260614927-e93a9c9c7d0a?w=400",
+        badge: "HOT", stock: 12, color: "Blue", material: "Polyester",
+        rating: 4.7, reviews: 156,
+        description: "Spacious travel duffel bag perfect for weekend getaways. Features reinforced handles, adjustable shoulder strap, and water-resistant fabric. Multiple compartments for easy organization."
+      }
+    ];
+
+    let currentProduct = null;
+    let cart = [];
+    let quantity = 1;
+
+    function getProductIdFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      return parseInt(params.get('id')) || 1;
+    }
+
+    function loadProduct() {
+      const productId = getProductIdFromURL();
+      currentProduct = allProducts.find(p => p.id === productId) || allProducts[0];
+
+      document.getElementById('breadcrumbProduct').textContent = currentProduct.name;
+      document.getElementById('productTitle').textContent = currentProduct.name;
+      document.getElementById('productBadge').textContent = currentProduct.badge;
+      document.getElementById('currentPrice').textContent = `₹${currentProduct.price}`;
+      document.getElementById('oldPrice').textContent = `₹${currentProduct.oldPrice}`;
+      
+      const discount = Math.round(((currentProduct.oldPrice - currentProduct.price) / currentProduct.oldPrice) * 100);
+      document.getElementById('discount').textContent = `${discount}% OFF`;
+
+      const stars = '⭐'.repeat(Math.floor(currentProduct.rating));
+      document.getElementById('productStars').textContent = stars;
+      document.getElementById('ratingText').textContent = `${currentProduct.rating} (${currentProduct.reviews} reviews)`;
+
+      document.getElementById('productDescription').textContent = currentProduct.description;
+      document.getElementById('category').textContent = currentProduct.category;
+      document.getElementById('material').textContent = currentProduct.material;
+      document.getElementById('color').textContent = currentProduct.color;
+      document.getElementById('sku').textContent = `BAG-${currentProduct.id}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+      document.getElementById('stockCount').textContent = currentProduct.stock;
+
+      const stockInfo = document.getElementById('stockInfo');
+      const addToCartBtn = document.getElementById('addToCartBtn');
+      
+      if (currentProduct.stock === 0) {
+        stockInfo.className = 'stock-info out-of-stock';
+        stockInfo.innerHTML = '✗ Out of Stock';
+        addToCartBtn.disabled = true;
+        addToCartBtn.textContent = 'Out of Stock';
+      } else if (currentProduct.stock < 5) {
+        stockInfo.className = 'stock-info low-stock';
+        stockInfo.innerHTML = `⚠️ Only ${currentProduct.stock} units left!`;
+      }
+
+      document.getElementById('quantity').max = currentProduct.stock;
+
+      loadRelatedProducts();
+    }
+
+    function loadRelatedProducts() {
+      const related = allProducts.filter(p => 
+        p.id !== currentProduct.id && p.category === currentProduct.category
+      ).slice(0, 4);
+
+      const container = document.getElementById('relatedProducts');
+      container.innerHTML = related.map(product => `
+        <div class="product-card" onclick="window.location.href='product-detail.html?id=${product.id}'">
+          <img src="${product.image}" alt="${product.name}">
+          <div class="product-card-info">
+            <h3>${product.name}</h3>
+            <div class="price">₹${product.price}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function changeImage(index) {
+      const images = [
+        currentProduct.image,
+        "https://images.unsplash.com/photo-1622260614927-e93a9c9c7d0a?w=600",
+        "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=600"
+      ];
+      
+      document.getElementById('mainImage').src = images[index];
+      
+      document.querySelectorAll('.thumbnail').forEach((thumb, i) => {
+        thumb.classList.toggle('active', i === index);
+      });
+    }
+
+    function incrementQty() {
+      const input = document.getElementById('quantity');
+      if (parseInt(input.value) < parseInt(input.max)) {
+        input.value = parseInt(input.value) + 1;
+        quantity = parseInt(input.value);
+      }
+    }
+
+    function decrementQty() {
+      const input = document.getElementById('quantity');
+      if (parseInt(input.value) > 1) {
+        input.value = parseInt(input.value) - 1;
+        quantity = parseInt(input.value);
+      }
+    }
+
+    function addToCart() {
+      if (currentProduct.stock === 0) return;
+      
+      cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      
+      for (let i = 0; i < quantity; i++) {
+        cart.push({...currentProduct, addedQuantity: 1});
+      }
+      
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+      alert(`${quantity} x ${currentProduct.name} added to cart!`);
+    }
+
+    function buyNow() {
+      addToCart();
+      window.location.href = 'cart.html';
+    }
+
+    function addToWishlist() {
+      alert(`${currentProduct.name} added to wishlist!`);
+    }
+
+    function updateCartCount() {
+      const cartData = JSON.parse(localStorage.getItem('cart') || '[]');
+      document.getElementById('cartCount').textContent = cartData.length;
+    }
+
+    window.onload = function() {
+      loadProduct();
+      updateCartCount();
+    };
+  </script>
+</body>
+</html>

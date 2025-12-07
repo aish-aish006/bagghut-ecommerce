@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bagghut - Premium Bags Online Store</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+    }
+
+    /* Offer Bar */
+    .offer-bar {
+      background: linear-gradient(135deg, #FFB07C 0%, #ff8c5a 100%);
+      color: white;
+      text-align: center;
+      padding: 12px;
+      font-weight: 600;
+      font-size: 14px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #FFDAB9 0%, #ffcba4 100%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 40px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 36px;
+      font-weight: bold;
+      color: #d32f2f;
+      font-family: 'Trebuchet MS', sans-serif;
+      letter-spacing: 3px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      cursor: pointer;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 35px;
+      align-items: center;
+    }
+
+    nav ul li {
+      position: relative;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 600;
+      font-size: 15px;
+      transition: all 0.3s;
+      padding: 8px 12px;
+      border-radius: 5px;
+    }
+
+    nav ul li a:hover {
+      color: #d32f2f;
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .cart-icon {
+      position: relative;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #d32f2f;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .profile-pic {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
+      border: 3px solid #d32f2f;
+      transition: transform 0.3s;
+    }
+
+    .profile-pic:hover {
+      transform: scale(1.1);
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-align: center;
+      padding: 80px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,165.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') bottom/cover no-repeat;
+    }
+
+    .hero h1 {
+      font-size: 56px;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    .hero p {
+      font-size: 20px;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .hero-btn {
+      background: white;
+      color: #667eea;
+      padding: 15px 40px;
+      border: none;
+      border-radius: 50px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      position: relative;
+    }
+
+    .hero-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    /* Categories Section */
+    .categories {
+      padding: 60px 40px;
+      background: white;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 36px;
+      margin-bottom: 40px;
+      color: #333;
+      position: relative;
+      padding-bottom: 15px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background: linear-gradient(to right, #FFB07C, #d32f2f);
+      border-radius: 2px;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .category-card {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      border-radius: 15px;
+      padding: 30px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .category-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .category-icon {
+      font-size: 50px;
+      margin-bottom: 15px;
+    }
+
+    .category-card h3 {
+      font-size: 20px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .category-card p {
+      color: #666;
+      font-size: 14px;
+    }
+
+    /* Featured Products */
+    .products-section {
+      padding: 60px 40px;
+      background: #f9f9f9;
+    }
+
+    .products-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 40px auto 0;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: #d32f2f;
+      color: white;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      z-index: 10;
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .product-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .product-info {
+      padding: 20px;
+    }
+
+    .product-card h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .product-card p {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .price {
+      font-size: 22px;
+      font-weight: bold;
+      color: #d32f2f;
+      margin-bottom: 15px;
+    }
+
+    .old-price {
+      text-decoration: line-through;
+      color: #999;
+      font-size: 16px;
+      margin-left: 10px;
+    }
+
+    .product-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 14px;
+    }
+
+    .btn-primary {
+      background: #d32f2f;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #b71c1c;
+      transform: scale(1.05);
+    }
+
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #333;
+    }
+
+    .btn-secondary:hover {
+      background: #e0e0e0;
+    }
+
+    .view-all {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .view-all-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px 50px;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .view-all-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    /* Reviews Section */
+    .reviews-section {
+      padding: 60px 40px;
+      background: white;
+      position: relative;
+    }
+
+    .reviews-container {
+      display: flex;
+      gap: 30px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 20px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .review-card {
+      min-width: 300px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .review-card p {
+      font-size: 16px;
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
+
+    .review-author {
+      font-weight: bold;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .rating {
+      color: gold;
+      font-size: 20px;
+      margin-top: 10px;
+    }
+
+    /* Footer */
+    footer {
+      background: #333;
+      color: white;
+      padding: 40px 40px 20px;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto 30px;
+    }
+
+    .footer-section h3 {
+      margin-bottom: 20px;
+      color: #FFB07C;
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-section ul li a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-section ul li a:hover {
+      color: #FFB07C;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      background: #555;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .social-icon:hover {
+      background: #FFB07C;
+      transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid #555;
+      color: #ccc;
+      font-size: 14px;
+    }
+
+    /* Chat Button */
+    .chat-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: all 0.3s;
+      z-index: 1000;
+    }
+
+    .chat-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    }
+  </style>
+</head>
+<body>
+  <!-- Offer Bar -->
+  <div class="offer-bar">
+    🎉 MEGA SALE! Get up to 60% OFF + Free Shipping on orders above ₹999 🎉
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="logo" onclick="window.location.href='index.html'">Bagghut</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Shop</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li>
+          <div class="cart-icon" onclick="window.location.href='cart.html'">
+            🛒
+            <span class="cart-count" id="cartCount">0</span>
+          </div>
+        </li>
+        <li>
+          <img src="https://i.pravatar.cc/100" alt="Profile" class="profile-pic" 
+               onclick="window.location.href='profile.html'">
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Welcome to Bagghut</h1>
+    <p>Your One-Stop Destination for Premium Quality Bags</p>
+    <button class="hero-btn" onclick="window.location.href='products.html'">Shop Now</button>
+  </section>
+
+  <!-- Categories -->
+  <section class="categories">
+    <h2 class="section-title">Shop by Category</h2>
+    <div class="category-grid">
+      <div class="category-card" onclick="filterCategory('backpack')">
+        <div class="category-icon">🎒</div>
+        <h3>Backpacks</h3>
+        <p>Durable & Stylish</p>
+      </div>
+      <div class="category-card" onclick="filterCategory('handbag')">
+        <div class="category-icon">👜</div>
+        <h3>Handbags</h3>
+        <p>Elegant Collection</p>
+      </div>
+      <div class="category-card" onclick="filterCategory('laptop')">
+        <div class="category-icon">💼</div>
+        <h3>Laptop Bags</h3>
+        <p>Professional Look</p>
+      </div>
+      <div class="category-card" onclick="filterCategory('travel')">
+        <div class="category-icon">🧳</div>
+        <h3>Travel Bags</h3>
+        <p>Adventure Ready</p>
+      </div>
+      <div class="category-card" onclick="filterCategory('tote')">
+        <div class="category-icon">🛍️</div>
+        <h3>Tote Bags</h3>
+        <p>Everyday Essential</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="products-section">
+    <h2 class="section-title">Featured Products</h2>
+    <div class="products-container" id="featuredProducts">
+      <!-- Products will be loaded here by JavaScript -->
+    </div>
+    <div class="view-all">
+      <button class="view-all-btn" onclick="window.location.href='products.html'">
+        View All Products
+      </button>
+    </div>
+  </section>
+
+  <!-- Reviews -->
+  <section class="reviews-section">
+    <h2 class="section-title">What Our Customers Say</h2>
+    <div class="reviews-container">
+      <div class="review-card">
+        <p>"Amazing quality! The backpack is perfect for my daily commute. Highly recommend Bagghut!"</p>
+        <div class="review-author">- Priya Sharma</div>
+        <div class="rating">⭐⭐⭐⭐⭐</div>
+      </div>
+      <div class="review-card">
+        <p>"Fast delivery and excellent customer service. The handbag is exactly as shown in pictures."</p>
+        <div class="review-author">- Rahul Verma</div>
+        <div class="rating">⭐⭐⭐⭐⭐</div>
+      </div>
+      <div class="review-card">
+        <p>"Best travel bag I've ever bought! Durable, spacious, and stylish. Worth every penny!"</p>
+        <div class="review-author">- Anita Desai</div>
+        <div class="rating">⭐⭐⭐⭐⭐</div>
+      </div>
+      <div class="review-card">
+        <p>"The laptop bag is perfect for work. Great padding and lots of compartments. Love it!"</p>
+        <div class="review-author">- Amit Patel</div>
+        <div class="rating">⭐⭐⭐⭐⭐</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>About Bagghut</h3>
+        <p>Your trusted partner for premium quality bags. We offer the best collection of backpacks, handbags, laptop bags, and more.</p>
+        <div class="social-links">
+          <a href="#" class="social-icon">📘</a>
+          <a href="#" class="social-icon">📷</a>
+          <a href="#" class="social-icon">🐦</a>
+          <a href="#" class="social-icon">📺</a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="products.html">Shop</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="policies.html">Policies</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Customer Service</h3>
+        <ul>
+          <li><a href="policies.html#faq">FAQ</a></li>
+          <li><a href="policies.html#shipping">Shipping Info</a></li>
+          <li><a href="policies.html#returns">Returns & Refunds</a></li>
+          <li><a href="contact.html">Track Order</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Contact Us</h3>
+        <ul>
+          <li>📧 support@bagghut.com</li>
+          <li>📞 +91 98765 43210</li>
+          <li>📍 Bangalore, Karnataka</li>
+          <li>🕐 Mon-Sat: 9AM - 8PM</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 Bagghut. All Rights Reserved. | Made with ❤️ in India</p>
+    </div>
+  </footer>
+
+  <!-- WhatsApp Chat Button -->
+  <div class="chat-btn" onclick="window.open('https://wa.me/919876543210', '_blank')">
+    💬
+  </div>
+
+  <script>
+    // Sample product data
+    const products = [
+      {
+        id: 1,
+        name: "Classic Leather Backpack",
+        category: "backpack",
+        price: 2499,
+        oldPrice: 3999,
+        image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400",
+        badge: "50% OFF",
+        stock: 15
+      },
+      {
+        id: 2,
+        name: "Designer Handbag",
+        category: "handbag",
+        price: 3999,
+        oldPrice: 5999,
+        image: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400",
+        badge: "NEW",
+        stock: 8
+      },
+      {
+        id: 3,
+        name: "Professional Laptop Bag",
+        category: "laptop",
+        price: 1899,
+        oldPrice: 2999,
+        image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400",
+        badge: "SALE",
+        stock: 20
+      },
+      {
+        id: 4,
+        name: "Travel Duffel Bag",
+        category: "travel",
+        price: 2999,
+        oldPrice: 4499,
+        image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400",
+        badge: "HOT",
+        stock: 12
+      },
+      {
+        id: 5,
+        name: "Canvas Tote Bag",
+        category: "tote",
+        price: 899,
+        oldPrice: 1499,
+        image: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400",
+        badge: "SALE",
+        stock: 25
+      },
+      {
+        id: 6,
+        name: "Urban Backpack",
+        category: "backpack",
+        price: 1999,
+        oldPrice: 2999,
+        image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400",
+        badge: "NEW",
+        stock: 18
+      }
+    ];
+
+    // Load products on page load
+    function loadFeaturedProducts() {
+      const container = document.getElementById('featuredProducts');
+      container.innerHTML = products.map(product => `
+        <div class="product-card" onclick="viewProduct(${product.id})">
+          <div class="product-badge">${product.badge}</div>
+          <img src="${product.image}" alt="${product.name}">
+          <div class="product-info">
+            <h3>${product.name}</h3>
+            <p>In Stock: ${product.stock} units</p>
+            <div class="price">
+              ₹${product.price}
+              <span class="old-price">₹${product.oldPrice}</span>
+            </div>
+            <div class="product-actions">
+              <button class="btn btn-primary" onclick="event.stopPropagation(); addToCart(${product.id})">
+                Add to Cart
+              </button>
+              <button class="btn btn-secondary" onclick="event.stopPropagation(); addToWishlist(${product.id})">
+                ❤️
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Cart functionality
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function updateCartCount() {
+      document.getElementById('cartCount').textContent = cart.length;
+    }
+
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      if (product) {
+        cart.push(product);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartCount();
+        alert(`${product.name} added to cart!`);
+      }
+    }
+
+    function addToWishlist(productId) {
+      const product = products.find(p => p.id === productId);
+      if (product) {
+        alert(`${product.name} added to wishlist!`);
+      }
+    }
+
+    function viewProduct(productId) {
+      window.location.href = `product-detail.html?id=${productId}`;
+    }
+
+    function filterCategory(category) {
+      window.location.href = `products.html?category=${category}`;
+    }
+
+    // Initialize
+    window.onload = function() {
+      loadFeaturedProducts();
+      updateCartCount();
+    };
+  </script>
+</body>
+</html>
